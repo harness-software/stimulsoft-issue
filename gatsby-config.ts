@@ -1,6 +1,12 @@
-import type { GatsbyConfig } from "gatsby"
+import type { GatsbyConfig } from "gatsby";
+import path from "path";
+import { config } from "dotenv";
 
-const config: GatsbyConfig = {
+config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
+const gatsbyConfig: GatsbyConfig = {
   siteMetadata: {
     title: `stimulsoft-issue`,
     siteUrl: `https://www.yourdomain.tld`,
@@ -9,7 +15,25 @@ const config: GatsbyConfig = {
   // If you use VSCode you can also use the GraphQL plugin
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
-  plugins: [],
-}
+  plugins: [
+    {
+      resolve: `gatsby-plugin-gatsby-cloud`,
+      options: {
+        headers: {
+          "/*": [`Referrer-Policy: strict-origin`],
+        },
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: path.resolve(`./src/images`),
+      },
+    },
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+  ],
+};
 
-export default config
+export default gatsbyConfig;
