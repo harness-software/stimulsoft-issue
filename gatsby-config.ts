@@ -7,6 +7,9 @@ config({
 });
 
 const gatsbyConfig: GatsbyConfig = {
+  flags: {
+    DEV_SSR: true,
+  },
   siteMetadata: {
     title: `stimulsoft-issue`,
     siteUrl: `https://www.yourdomain.tld`,
